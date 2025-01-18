@@ -1,0 +1,447 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Advert",
+      "description": "This API is used to manage advert."
+    }
+  ],
+  "paths": {
+    "/api/advert": {
+      "post": {
+        "tags": [
+          "Advert"
+        ],
+        "summary": "Creates advert.",
+        "operationId": "createAdvert",
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "description": " An unique identifier value that is attached to requests and messages that allow reference to a particular transaction or event chain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c2abf341-6858-42f0-8f0b-c2a8ed7cff65"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Service is unavailable. Please try again."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Internal server error occurred."
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Advert created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Request parameters didn't validate.",
+                  "details": [
+                    {
+                      "errorName": "id",
+                      "errorReason": "must be valid request."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/advert/update-advert-status": {
+      "patch": {
+        "tags": [
+          "Advert"
+        ],
+        "summary": "Updates the status of an advert.",
+        "operationId": "updateAdvertStatus",
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "description": "An unique identifier value that is attached to requests and messages that allow reference to a particular transaction or event chain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c2abf341-6858-42f0-8f0b-c2a8ed7cff65"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertStatusUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Service is unavailable. Please try again."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Internal server error occurred."
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Advert status updated"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Request parameters didn't validate.",
+                  "details": [
+                    {
+                      "errorName": "id",
+                      "errorReason": "must be valid request."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Advert not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "A specified resource is not found.",
+                  "details": [
+                    {
+                      "errorName": "advert",
+                      "errorReason": "must be presented for given id."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/advert/{advertId}/status-changes": {
+      "get": {
+        "tags": [
+          "Advert"
+        ],
+        "summary": "Lists all status changes for a specific advert.",
+        "operationId": "getAdvertStatusChanges",
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "description": "An unique identifier value attached to requests for tracking purposes",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c2abf341-6858-42f0-8f0b-c2a8ed7cff65"
+          },
+          {
+            "name": "advertId",
+            "in": "path",
+            "description": "The ID of the advert",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Service is unavailable. Please try again."
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Status changes retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Internal server error occurred."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Advert not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "A specified resource is not found.",
+                  "details": [
+                    {
+                      "errorName": "advert",
+                      "errorReason": "must be presented for given id."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/advert/statistics": {
+      "get": {
+        "tags": [
+          "Advert"
+        ],
+        "summary": "Lists statistics for adverts by their status.",
+        "operationId": "getAdvertStatusStatistics",
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "description": "An unique identifier value attached to requests for tracking purposes",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c2abf341-6858-42f0-8f0b-c2a8ed7cff65"
+          }
+        ],
+        "responses": {
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Service is unavailable. Please try again."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                },
+                "example": {
+                  "message": "Internal server error occurred."
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdvertRequest": {
+        "required": [
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 50,
+            "minLength": 10,
+            "pattern": "^[a-zA-Z0-9İıŞşÇçÖöÜüĞğ].*",
+            "type": "string",
+            "example": "Vehicle for Sale"
+          },
+          "description": {
+            "maxLength": 200,
+            "minLength": 20,
+            "type": "string",
+            "example": "Vehicle with 4 wheels and 4 doors is open for sale"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          }
+        }
+      },
+      "Category": {
+        "type": "string",
+        "description": "Allowed values: EMLAK, VASITA, ALISVERIS, DIGER",
+        "example": "VASITA",
+        "enum": [
+          "EMLAK",
+          "VASITA",
+          "ALISVERIS",
+          "DIGER"
+        ]
+      },
+      "AdvertApiErrorDetailResponse": {
+        "type": "object",
+        "properties": {
+          "errorName": {
+            "type": "string",
+            "example": "NOT_FOUND"
+          },
+          "errorReason": {
+            "type": "string",
+            "example": "must be a valid request."
+          }
+        }
+      },
+      "AdvertErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Request parameters didn't validate."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdvertApiErrorDetailResponse"
+            }
+          }
+        }
+      },
+      "AdvertStatusUpdateRequest": {
+        "required": [
+          "advertId",
+          "newStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "advertId": {
+            "type": "integer",
+            "description": "Unique identifier of the advert to be updated",
+            "format": "int64",
+            "example": 1
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "New status of the advert. Valid values are: ONAY_BEKLIYOR, AKTIF, DEAKTIF, MUKERRER",
+            "example": "AKTIF",
+            "enum": [
+              "ONAY_BEKLIYOR",
+              "AKTIF",
+              "DEAKTIF",
+              "MUKERRER",
+              "ONAY_BEKLIYOR",
+              "AKTIF",
+              "DEAKTIF",
+              "MUKERRER"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: advert-api
+  datasource:
+    url: jdbc:h2:mem:advertdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  h2:
+    console.enabled: true
+
+server:
+  port: 8080
